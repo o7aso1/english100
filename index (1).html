@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مئة يوم إنجليزي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E4ECF3; --card:#FFFFFF; --ink:#14213D; --muted:#586A82; --line:#C6D3E0;
+  --rule:rgba(70,120,180,.15); --redline:#E4606D; --mark:#FFD84D; --markfg:#14213D;
+  --good:#0B8A68; --bad:#CF3E57; --btn:#14213D; --btnfg:#FFFFFF; --stack:#BCCADA; --focus:#14213D;
+  --ar:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+  --en:"Fraunces",Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0C1422; --card:#15223A; --ink:#E9EFF8; --muted:#8FA2BD; --line:#2A3C58;
+    --rule:rgba(140,180,235,.09); --redline:#D4505E; --mark:#8B6F12; --markfg:#FFF6D6;
+    --good:#3DD6A6; --bad:#FF7A8E; --btn:#F2C531; --btnfg:#0C1422; --stack:#22324D; --focus:#F2C531;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0C1422; --card:#15223A; --ink:#E9EFF8; --muted:#8FA2BD; --line:#2A3C58;
+  --rule:rgba(140,180,235,.09); --redline:#D4505E; --mark:#8B6F12; --markfg:#FFF6D6;
+  --good:#3DD6A6; --bad:#FF7A8E; --btn:#F2C531; --btnfg:#0C1422; --stack:#22324D; --focus:#F2C531;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ar);font-size:17px;line-height:1.7;
+  padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+button,input{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:8px}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px}
+h1,h2,p{margin:0}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 0 6px}
+.brand{font-size:1.2rem;font-weight:700;letter-spacing:0}
+.top-r{display:flex;align-items:center;gap:8px}
+.chip{background:var(--mark);color:var(--markfg);border-radius:999px;padding:1px 12px;font-size:.85rem;font-weight:600}
+.icon-btn{width:40px;height:40px;border:0;background:none;border-radius:12px;display:grid;place-items:center;color:var(--ink)}
+svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:11px 20px;font-weight:600;
+  border:1.5px solid var(--ink);background:none}
+.btn.primary{background:var(--btn);color:var(--btnfg);border-color:var(--btn)}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn svg{width:18px;height:18px}
+.link{background:none;border:0;padding:4px 0;color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--mark);text-decoration-thickness:3px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row.end{justify-content:flex-end}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:26px 0 8px}
+.muted{color:var(--muted)}
+
+/* today */
+.daynav{display:grid;grid-template-columns:48px 1fr 48px;align-items:center;margin:14px 0 4px}
+.round{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);display:grid;place-items:center}
+.daytitle{text-align:center}
+.num{font-family:var(--en);font-weight:700;font-size:4.2rem;line-height:1;letter-spacing:-.02em}
+.of{color:var(--muted);font-size:.95rem;margin-top:4px}
+.badge{display:inline-block;margin-inline-start:8px;padding:0 10px;border-radius:999px;background:var(--good);color:var(--paper);font-size:.78rem;font-weight:700}
+.sub{text-align:center;font-size:.92rem;margin-bottom:20px;min-height:30px}
+.stack{display:grid;gap:26px}
+.flash{position:relative;perspective:1300px;border-radius:8px;box-shadow:0 1px 0 var(--line),0 7px 0 -2px var(--stack)}
+.flip{display:grid;width:100%;padding:0;border:0;background:none;text-align:start;transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.3,.7,.2,1);border-radius:8px}
+.is-flipped .flip{transform:rotateY(180deg)}
+.face{grid-area:1/1;display:flex;flex-direction:column;min-height:176px;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+  background-color:var(--card);
+  background-image:linear-gradient(var(--redline),var(--redline)),repeating-linear-gradient(to bottom,transparent 0,transparent 31px,var(--rule) 31px,var(--rule) 32px);
+  background-size:100% 2px,100% 100%;background-position:0 31px,0 0;background-repeat:no-repeat,repeat;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.back{transform:rotateY(180deg)}
+.band{height:31px;padding:0 16px;display:flex;align-items:center;font-size:.8rem;color:var(--muted)}
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:12px 18px 20px}
+.front .body{align-items:center;text-align:center}
+.en{font-family:var(--en);font-weight:700;font-size:clamp(2.6rem,12vw,3.6rem);line-height:1.15;letter-spacing:-.01em}
+.mk{padding:0 .1em;background-image:linear-gradient(transparent 56%,var(--mark) 56%,var(--mark) 90%,transparent 90%);
+  background-repeat:no-repeat;background-size:0 100%;animation:sweep .6s cubic-bezier(.4,0,.2,1) calc(.12s + var(--i,0)*.17s) forwards}
+@keyframes sweep{to{background-size:100% 100%}}
+.ar{font-size:1.65rem;font-weight:600;line-height:1.4}
+.ex{color:var(--muted);font-size:1rem;text-align:left}
+.hl{font-weight:700;color:var(--ink);background:linear-gradient(transparent 60%,var(--mark) 60%)}
+.tools{position:absolute;top:0;inset-inline-end:6px;height:31px;display:flex;align-items:center;gap:2px;z-index:2}
+.tool{width:32px;height:28px;display:grid;place-items:center;border:0;background:none;color:var(--muted);border-radius:8px}
+.tool svg{width:19px;height:19px}
+.tool.on{color:var(--ink)}
+.tool.on svg{fill:var(--mark)}
+
+/* practice */
+.due{display:flex;align-items:baseline;gap:14px;margin:22px 0 6px}
+.due .n{font-family:var(--en);font-weight:700;font-size:4.4rem;line-height:1}
+.due p{font-size:1.1rem;font-weight:500}
+.hint{color:var(--muted);font-size:.95rem;margin-bottom:16px}
+.rows{margin:26px 0 8px;border-top:1px solid var(--line)}
+.rowbtn{display:flex;width:100%;align-items:center;justify-content:space-between;padding:15px 2px;background:none;border:0;border-bottom:1px solid var(--line);text-align:start}
+.rowbtn .c{font-family:var(--en);font-weight:700;font-size:1.3rem}
+.sec{font-weight:600;margin:26px 0 10px}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:4px 16px;font-size:.95rem}
+.seg button.on{background:var(--btn);color:var(--btnfg);border-color:var(--btn);font-weight:600}
+
+/* quiz */
+.qhead{display:flex;align-items:center;gap:14px;margin:18px 0 20px}
+.qprog{flex:1;height:8px;background:var(--line);border-radius:8px;overflow:hidden}
+.qprog span{display:block;height:100%;background:var(--mark);transition:width .3s}
+.qcount{font-family:var(--en);font-weight:700;direction:ltr;min-width:48px;text-align:end}
+.sheet{border:1px solid var(--line);border-radius:8px;padding:30px 18px 26px;text-align:center;margin-bottom:18px;
+  background-color:var(--card);
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,var(--rule) 31px,var(--rule) 32px);
+  box-shadow:0 1px 0 var(--line),0 7px 0 -2px var(--stack)}
+.sheet .en{display:block}
+.sheet .ar{display:block}
+.sheet .ex{text-align:center;margin-top:10px;direction:ltr}
+.sheet .tool{width:44px;height:44px;margin:6px auto 0;border:1.5px solid var(--line);border-radius:50%;color:var(--ink)}
+.sheet .tool svg{width:22px;height:22px}
+.listen-btn{width:84px;height:84px;border-radius:50%;border:0;background:var(--btn);color:var(--btnfg);display:grid;place-items:center;margin:0 auto 6px}
+.listen-btn svg{width:36px;height:36px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:start;padding:14px 16px;margin-bottom:10px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);font-size:1.08rem}
+.opt.enopt{direction:ltr;text-align:left;font-family:var(--en);font-weight:500;font-size:1.25rem}
+.opt .k{font-family:var(--en);font-size:.85rem;color:var(--muted);width:20px;flex:none;text-align:center}
+.opt:disabled{opacity:1;cursor:default}
+.opt:disabled:not(.ok):not(.no){opacity:.5}
+.opt.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 16%,var(--card))}
+.opt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--card))}
+@media (hover:none){.opt .k{display:none}}
+.ans{width:100%;direction:ltr;text-align:center;font-family:var(--en);font-size:1.6rem;font-weight:500;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);margin-top:14px}
+.ans.ok{border-color:var(--good)} .ans.no{border-color:var(--bad)}
+.blankhint{font-family:var(--en);letter-spacing:.2em;direction:ltr;margin-top:8px;color:var(--muted)}
+.fb{margin-top:6px;padding:16px;border-radius:10px;border:1.5px solid var(--bad);background:color-mix(in srgb,var(--bad) 10%,var(--card))}
+.fb.good{border-color:var(--good);background:color-mix(in srgb,var(--good) 12%,var(--card));font-weight:600}
+.fb .line{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;font-size:1.1rem}
+.fb .line .en{font-size:1.5rem}
+.fb .ex{margin:4px 0 12px}
+.score{display:flex;align-items:baseline;gap:12px;justify-content:center;margin:30px 0 6px}
+.score .n{font-family:var(--en);font-weight:700;font-size:5rem;line-height:1}
+.result p{text-align:center}
+.missed{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--line)}
+.missed li{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line)}
+.missed .en{font-size:1.3rem}
+
+/* words */
+.searchbar{margin:18px 0 12px}
+.searchbar input{width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--card)}
+.wrow{display:flex;justify-content:space-between;gap:10px;padding:14px 2px;border-bottom:1px solid var(--line)}
+.wmain{display:flex;flex-direction:column;min-width:0}
+.wmain .w{font-family:var(--en);font-weight:700;font-size:1.4rem;line-height:1.3;direction:ltr;text-align:start}
+.wmain .m{font-weight:500}
+.wmain .e{color:var(--muted);font-size:.9rem;direction:ltr;text-align:start}
+.wtools{display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex:none}
+.wtools .tl{display:flex}
+.daychip{border:0;background:none;color:var(--muted);font-size:.8rem;text-decoration:underline;text-underline-offset:3px;padding:0 6px}
+.empty{padding:36px 8px;text-align:center;color:var(--muted)}
+
+/* progress */
+.stats{display:grid;grid-template-columns:1fr 1fr;margin:20px 0 8px}
+.stat{padding:16px 2px;border-top:1px solid var(--line)}
+.stat .n{font-family:var(--en);font-weight:700;font-size:2.6rem;line-height:1.1}
+.stat .l{color:var(--muted);font-size:.92rem}
+.map{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:8px}
+.cell{aspect-ratio:1;border-radius:6px;border:1px solid var(--line);background:var(--card);font-family:var(--en);font-weight:500;font-size:.78rem;padding:0;display:grid;place-items:center}
+.cell.done{background:var(--mark);color:var(--markfg);border-color:transparent}
+.cell.now{outline:2.5px solid var(--ink);outline-offset:1px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.85rem;margin-top:12px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;border:1px solid var(--line);vertical-align:-1px;margin-inline-end:6px;background:var(--card)}
+.legend i.d{background:var(--mark);border-color:transparent}
+.legend i.n{outline:2px solid var(--ink);outline-offset:0}
+
+/* tabs */
+.tabs{position:fixed;inset-inline:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:10}
+.tabs-in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.tabs button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:0;padding:9px 4px 8px;color:var(--muted);font-size:.78rem;font-weight:500;position:relative}
+.tabs button[aria-current="page"]{color:var(--ink);font-weight:700}
+.tabs button[aria-current="page"]::before{content:"";position:absolute;top:0;width:34px;height:4px;border-radius:0 0 4px 4px;background:var(--mark)}
+
+/* dialog + toast */
+dialog{width:min(92vw,440px);border:0;border-radius:16px;padding:22px;background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(8,14,26,.55)}
+dialog h2{font-size:1.2rem;margin-bottom:12px}
+.set{padding:14px 0;border-top:1px solid var(--line)}
+.set .lbl{font-weight:600;margin-bottom:8px}
+.note{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+.toast{position:fixed;bottom:calc(88px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,12px);background:var(--ink);color:var(--paper);
+  padding:9px 18px;border-radius:999px;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:30;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){
+  .mk{animation:none;background-size:100% 100%}
+  .flip,.toast,.qprog span{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1 class="brand">مئة يوم إنجليزي</h1>
+    <div class="top-r">
+      <span class="chip" id="streak" hidden></span>
+      <button class="icon-btn" data-a="openSettings" aria-label="الإعدادات">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h8M18 7h2M4 12h2M12 12h8M4 17h10M20 17h0"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="12" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg>
+      </button>
+    </div>
+  </header>
+  <main id="app"></main>
+</div>
+
+<nav class="tabs" aria-label="التنقل">
+  <div class="tabs-in" id="tabs">
+    <button data-a="tab" data-tab="today"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 10h16"/></svg>اليوم</button>
+    <button data-a="tab" data-tab="practice"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>تدريب</button>
+    <button data-a="tab" data-tab="words"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h9"/></svg>الكلمات</button>
+    <button data-a="tab" data-tab="progress"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>التقدم</button>
+  </div>
+</nav>
+
+<dialog id="settings"></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const RAW = `
+1|Time|وقت|I don't have enough time.
+1|Person|شخص|He is a good person.
+1|Want|يريد|I want to learn English.
+2|Code|كود / شفرة / يبرمج|I write code every day.
+2|File|ملف|Open the project file.
+2|Data|بيانات|The data is correct.
+3|Task|مهمة|Complete your daily task.
+3|User|مستخدم|This user is active.
+3|Page|صفحة|Open the main page.
+4|App|تطبيق|I built a new app.
+4|Link|رابط / يربط|Send me the link.
+4|Test|اختبار / يفحص|We need to test it.
+5|Text|نص / رسالة|Send me a text.
+5|Plan|خطة / يخطط|What is the plan?
+5|Goal|هدف|Set a clear goal.
+6|View|عرض / واجهة / يشاهد|Click to view the image.
+6|Path|مسار|Check the file path.
+6|Work|عمل / يعمل|I start work at nine.
+7|Help|يساعد / مساعدة|Thank you for your help.
+7|Need|يحتاج|I need some help.
+7|Find|يجد / يبحث|I can't find the bug.
+8|Fix|يصلح / يعدل|Fix the error now.
+8|Save|يحفظ|Save the file first.
+8|Make|يصنع / يجعل|Make it simple.
+9|Call|يتصل / ينادي / استدعاء|Call the function.
+9|Show|يعرض / يظهر|Show me the code.
+9|Send|يرسل|Send the report today.
+10|Check|يفحص / يراجع|Check your email.
+10|Done|تم / انتهى|The job is done.
+10|Build|يبني / يطور|I build web apps.
+11|Start|يبدأ|Start the program.
+11|Stop|يتوقف / يوقف|Stop the process.
+11|Load|يحمل / يرفع|Load the new page.
+12|Edit|يعدل / يحرر|Edit the text file.
+12|Open|يفتح|Open the new window.
+12|Close|يغلق|Close the browser.
+13|Click|ينقر / يضغط|Click the red button.
+13|Press|يضغط|Press the enter key.
+13|Input|مدخلات / يدخل|Check user input.
+14|Result|نتيجة|The result is correct.
+14|Output|مخرجات|Check the final output.
+14|Error|خطأ|Fix the code error.
+15|Bug|خلل / عطل|I found a small bug.
+15|Screen|شاشة|Look at the screen.
+15|Key|مفتاح / رئيسي|This is a key step.
+16|Tool|أداة|Use the right tool.
+16|List|قائمة|Add to the list.
+16|Item|عنصر|Select an item.
+17|Form|نموذج|Fill out the form.
+17|Grid|شبكة / تخطيط|Use CSS grid layout.
+17|Card|بطاقة / كرت|Show the info card.
+18|Icon|أيقونة|Add a small icon.
+18|Font|خط|Change the font size.
+18|Size|حجم|Check the file size.
+19|Type|نوع / يكتب|Type your full name.
+19|Mode|وضع|Switch to dark mode.
+19|Rule|قاعدة|Follow the team rule.
+20|Team|فريق|Join our new team.
+20|Role|دور / صلاحية|Check your user role.
+20|Pass|يمرر / ينجح|Pass the test easily.
+21|Fail|يفشل / يخفق|The build did fail.
+21|Free|مجاني / حر|This app is free.
+21|Safe|آمن|Keep your data safe.
+22|Fast|سريع|Make the page fast.
+22|Slow|بطيء|The site is slow.
+22|True|صحيح / حقيقي|This value is true.
+23|False|خاطئ|The statement is false.
+23|Null|فارغ / لا شيء|The variable is null.
+23|Root|جذر / أصل|Go to root folder.
+24|Base|قاعدة / أساس|Set up the base code.
+24|Loop|حلقة / تكرار|Run a simple loop.
+24|Sort|يرتب / يفرز|Sort the items now.
+25|Know|يعرف / يعلم|I know the answer.
+25|Think|يفكر / يعتقد|I think it is good.
+25|Talk|يتحدث / يتكلم|Let us talk about it.
+26|Ask|يسأل|Ask a simple question.
+26|Word|كلمة|Learn a new word.
+26|Book|كتاب|Read a good book.
+27|Idea|فكرة|That is a great idea.
+27|News|أخبار|Did you hear the news?
+27|Mind|عقل / ذهن|Keep that in mind.
+28|Fact|حقيقة|Tell me the fact.
+28|Room|غرفة / مساحة|Clean your room.
+28|Door|باب|Open the front door.
+29|City|مدينة|I live in a big city.
+29|Name|اسم|What is your name?
+29|Hand|يد|Give me a hand.
+30|Home|بيت / منزل|I am going home.
+30|Life|حياة|Life is full of choices.
+30|Friend|صديق|He is my best friend.
+31|Hour|ساعة (وقت)|Wait for one hour.
+31|Year|سنة / عام|Next year will be better.
+31|Kind|نوع / لطيف|Be kind to everyone.
+32|Best|الأفضل|Do your best today.
+32|Easy|سهل|English is easy to learn.
+32|Hard|صعب / شاق|It was a hard job.
+33|Late|متأخر|Do not be late today.
+33|Sure|متأكد|Are you sure about this?
+33|Study|يدرس / دراسة|I study every day.
+34|Learn|يتعلم|Learn something new.
+34|Class|فصل / حصة|The class starts now.
+34|Paper|ورقة|Write on the paper.
+35|Story|قصة|Tell me a story.
+35|Reason|سبب|Give me one reason.
+35|Price|سعر|What is the price?
+36|Begin|يبدأ|Let us begin now.
+36|Finish|ينهي / ينتهي|Finish your homework.
+36|Try|يحاول|Try your best.
+37|Use|يستخدم|Use this pen.
+37|Move|يتحرك / ينتقل|Move forward.
+37|Walk|يمشي|I walk to school.
+38|Run|يركض|He runs fast.
+38|Sit|يجلس|Sit down, please.
+38|Stand|يقف|Stand up.
+39|Look|ينظر|Look at this.
+39|See|يرى|I can see you.
+39|Hear|يسمع|Did you hear that?
+40|Speak|يتحدث|Speak clearly.
+40|Listen|يستمع|Listen to me.
+40|Read|يقرأ|Read the book.
+41|Write|يكتب|Write your name.
+41|Draw|يرسم|Draw a picture.
+41|Clean|ينظف|Clean your desk.
+42|Wash|يغسل|Wash your hands.
+42|Eat|يأكل|Eat healthy food.
+42|Drink|يشرب|Drink some water.
+43|Sleep|ينام|I want to sleep.
+43|Wake|يستيقظ|Wake up early.
+43|Play|يلعب|Play with us.
+44|Win|يفوز|We will win.
+44|Town|بلدة|It is a small town.
+44|Village|قرية|He lives in a village.
+45|Country|دولة / بلاد|Saudi Arabia is a great country.
+45|World|عالم|Welcome to the world.
+45|Street|شارع|Cross the street carefully.
+46|Road|طريق|This is the main road.
+46|Car|سيارة|He has a new car.
+46|Bus|حافلة / باص|Take the bus to school.
+47|Train|قطار|The train is fast.
+47|Plane|طائرة|I like to travel by plane.
+47|Airport|مطار|We are going to the airport.
+48|Station|محطة|Wait at the station.
+48|Ticket|تذكرة|Buy a train ticket.
+48|Trip|رحلة|Have a safe trip.
+49|Update|يحدّث / تحديث|Update the app today.
+49|Delete|يحذف|Delete the old file.
+49|Create|ينشئ / يبتكر|Create a new account.
+50|Copy|ينسخ / نسخة|Copy the text first.
+50|Paste|يلصق|Paste the link here.
+50|Search|يبحث / بحث|Search for the answer.
+51|Login|تسجيل الدخول|Login to your account.
+51|Password|كلمة المرور|Never share your password.
+51|Account|حساب|Open a free account.
+52|Settings|إعدادات|Open the settings page.
+52|Menu|قائمة (طعام / تطبيق)|Check the main menu.
+52|Button|زر|Press the blue button.
+53|Server|خادم|The server is down.
+53|Network|شبكة|The network is slow.
+53|Online|متصل بالإنترنت|I am online now.
+54|Offline|غير متصل|The app works offline.
+54|Download|يحمّل / تنزيل|Download the file now.
+54|Upload|يرفع / رفع|Upload your photo.
+55|Install|يثبّت|Install the new version.
+55|Version|إصدار / نسخة|This is the latest version.
+55|Feature|ميزة|It has a useful feature.
+56|Support|دعم / يدعم|Contact customer support.
+56|Request|طلب / يطلب|Send a request to the server.
+56|Response|استجابة / رد|The response was fast.
+57|Message|رسالة|I got your message.
+57|Email|بريد إلكتروني|Send me an email.
+57|Folder|مجلد|Create a new folder.
+58|Image|صورة|Upload an image.
+58|Video|فيديو|Watch this video.
+58|Sound|صوت|Turn on the sound.
+59|Design|تصميم / يصمم|I like this design.
+59|Project|مشروع|My project is ready.
+59|Report|تقرير|Read the monthly report.
+60|Option|خيار|Choose an option.
+60|Value|قيمة|Enter a valid value.
+60|Status|حالة|Check the order status.
+61|Change|يغيّر / تغيير|Change the password.
+61|Choose|يختار|Choose a color.
+61|Add|يضيف|Add a new item.
+62|Remove|يزيل / يحذف|Remove the extra text.
+62|Keep|يحتفظ / يبقي|Keep it simple.
+62|Share|يشارك / مشاركة|Share the link with me.
+63|Join|ينضم|Join our group.
+63|Leave|يغادر / يترك|Leave a comment.
+63|Follow|يتبع / يتابع|Follow the steps.
+64|Give|يعطي|Give me an example.
+64|Take|يأخذ|Take your time.
+64|Bring|يحضر|Bring your laptop.
+65|Buy|يشتري|I want to buy a phone.
+65|Sell|يبيع|They sell books online.
+65|Pay|يدفع|Pay by card.
+66|Answer|إجابة / يجيب|Write the correct answer.
+66|Question|سؤال|I have a question.
+66|Problem|مشكلة|We have a big problem.
+67|Solution|حل|I found a solution.
+67|Choice|اختيار|It is your choice.
+67|Chance|فرصة|Give me a chance.
+68|Simple|بسيط|The design is simple.
+68|Clear|واضح|The message is clear.
+68|Strong|قوي|He has a strong voice.
+69|Weak|ضعيف|The signal is weak.
+69|Big|كبير|This is a big file.
+69|Small|صغير|I need a small change.
+70|Long|طويل|It was a long day.
+70|Short|قصير|Write a short message.
+70|High|عالٍ|The price is high.
+71|Low|منخفض|The battery is low.
+71|New|جديد|I have a new idea.
+71|Old|قديم|This is an old phone.
+72|Young|شاب / صغير السن|He is a young developer.
+72|Good|جيد|This is a good plan.
+72|Bad|سيئ|That is a bad idea.
+73|Happy|سعيد|I am happy today.
+73|Sad|حزين|She looks sad.
+73|Angry|غاضب|Do not be angry.
+74|Tired|متعب|I am tired now.
+74|Busy|مشغول|I am busy today.
+74|Ready|جاهز|Are you ready?
+75|Careful|حذر|Be careful with the data.
+75|Family|عائلة|I love my family.
+75|Father|أب|My father works hard.
+76|Mother|أم|My mother cooks well.
+76|Brother|أخ|My brother is older.
+76|Sister|أخت|Her sister is a doctor.
+77|Son|ابن|He has one son.
+77|Daughter|بنت (ابنة)|She has a daughter.
+77|Child|طفل|The child is playing.
+78|Man|رجل|That man is tall.
+78|Woman|امرأة|The woman is a teacher.
+78|Boy|ولد|The boy is reading.
+79|Girl|بنت (فتاة)|The girl is smart.
+79|Teacher|معلم|The teacher is kind.
+79|Student|طالب|Every student has a book.
+80|School|مدرسة|I go to school early.
+80|Doctor|طبيب|See a doctor today.
+80|Hospital|مستشفى|He is in the hospital.
+81|Health|صحة|Health is important.
+81|Water|ماء|Drink more water.
+81|Food|طعام|The food is ready.
+82|Bread|خبز|Buy some bread.
+82|Milk|حليب|I drink milk daily.
+82|Coffee|قهوة|I like Arabic coffee.
+83|Tea|شاي|Do you want some tea?
+83|Morning|صباح|Good morning.
+83|Night|ليل|Good night.
+84|Today|اليوم|Today is a new day.
+84|Tomorrow|غدًا|See you tomorrow.
+84|Yesterday|أمس|I called you yesterday.
+85|Week|أسبوع|I study every week.
+85|Month|شهر|This month is busy.
+85|Day|يوم|Have a nice day.
+86|Weekend|عطلة نهاية الأسبوع|Enjoy your weekend.
+86|Money|مال / نقود|I need some money.
+86|Market|سوق|We go to the market.
+87|Shop|متجر / يتسوق|The shop is closed.
+87|House|منزل / بيت|Their house is big.
+87|Garden|حديقة|The garden is green.
+88|Kitchen|مطبخ|She is in the kitchen.
+88|Window|نافذة|Open the window.
+88|Table|طاولة / جدول|Put it on the table.
+89|Chair|كرسي|Take a chair.
+89|Bed|سرير|The bed is comfortable.
+89|Bag|حقيبة|Where is my bag?
+90|Phone|هاتف|My phone is new.
+90|Weather|طقس|The weather is nice.
+90|Rain|مطر|It will rain today.
+91|Sun|شمس|The sun is bright.
+91|Hot|حار|The tea is hot.
+91|Cold|بارد|The water is cold.
+92|Warm|دافئ|It is warm today.
+92|Color|لون|Choose a color.
+92|Red|أحمر|The light is red.
+93|Blue|أزرق|The sky is blue.
+93|Green|أخضر|I like green tea.
+93|Black|أسود|He wears a black shirt.
+94|White|أبيض|The wall is white.
+94|Love|يحب / حب|I love my job.
+94|Like|يعجبه / مثل|I like this app.
+95|Hate|يكره|I hate waiting.
+95|Hope|أمل / يأمل|I hope you are well.
+95|Wish|يتمنى / أمنية|I wish you success.
+96|Dream|حلم / يحلم|Follow your dream.
+96|Believe|يصدّق / يؤمن|I believe in you.
+96|Remember|يتذكر|Remember this word.
+97|Forget|ينسى|Do not forget the key.
+97|Understand|يفهم|I understand the rule.
+97|Explain|يشرح|Explain it again.
+98|Mean|يعني / يقصد|What does it mean?
+98|Meet|يقابل / يلتقي|Nice to meet you.
+98|Visit|يزور / زيارة|I visit my family.
+99|Invite|يدعو / دعوة|I invite you to dinner.
+99|Wait|ينتظر|Wait for me here.
+99|Hurry|يستعجل|Hurry up, please.
+100|Return|يعود / يرجع|Return to the home page.
+100|Success|نجاح|Success needs practice.
+100|Future|مستقبل|The future is bright.
+`;
+
+const WORDS = RAW.trim().split("\n").map((l, i) => {
+  const [d, w, m, e] = l.split("|");
+  return { id: i, d: +d, w, m, e };
+});
+const BY_DAY = {};
+WORDS.forEach(x => (BY_DAY[x.d] = BY_DAY[x.d] || []).push(x));
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.random() * a.length | 0];
+const pad = n => String(n).padStart(2, "0");
+const dstr = (d = new Date()) => d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+const today = () => dstr();
+const addDays = (s, n) => { const d = new Date(s + "T00:00:00"); d.setDate(d.getDate() + n); return dstr(d); };
+const arDays = n => n === 1 ? "يوم" : n === 2 ? "يومان" : n <= 10 ? n + " أيام" : n + " يومًا";
+
+const I = {
+  speaker: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5l4.5 3.5V6L7.5 9.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+  star: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8L12 3.6z"/></svg>',
+  next: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
+  prev: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>',
+  flip: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2"/><path d="M20 4v5h-5M4 20v-5h5"/></svg>'
+};
+
+/* ---------- state ---------- */
+const KEY = "english100_v2", OLD = "english100_v1";
+const fresh = () => ({ done: [], srs: {}, hard: {}, log: {}, stats: { a: 0, c: 0 }, theme: "auto", rate: 0.9 });
+function load() {
+  const s = fresh();
+  try { Object.assign(s, JSON.parse(localStorage.getItem(KEY)) || {}); } catch (e) {}
+  if (!s.done.length) {
+    try { const o = JSON.parse(localStorage.getItem(OLD)); if (o && Array.isArray(o.done)) s.done = o.done; } catch (e) {}
+  }
+  return s;
+}
+let S = load();
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+const touch = () => { const t = today(); S.log[t] = (S.log[t] || 0) + 1; };
+
+const lessonDay = () => { for (let d = 1; d <= 100; d++) if (!S.done.includes(d)) return d; return 100; };
+const streak = () => { let d = today(); if (!S.log[d]) d = addDays(d, -1); let n = 0; while (S.log[d]) { n++; d = addDays(d, -1); } return n; };
+
+const INT = [0, 1, 3, 7, 14];
+function grade(id, ok) {
+  const t = today();
+  const s = S.srs[id] || { box: 0, due: t };
+  s.box = ok ? Math.min(4, s.box + 1) : 0;
+  s.due = addDays(t, ok ? INT[s.box] : 0);
+  S.srs[id] = s;
+  S.stats.a++; if (ok) S.stats.c++;
+  touch(); save();
+}
+const dueWords = () => WORDS.filter(w => S.srs[w.id] && S.srs[w.id].due <= today());
+const learnedWords = () => WORDS.filter(w => S.done.includes(w.d) || S.srs[w.id]);
+const hardWords = () => WORDS.filter(w => S.hard[w.id]);
+
+const ui = { tab: "today", view: lessonDay(), quiz: null, mode: "mixed", filter: "all", q: "", timer: null };
+
+/* ---------- speech + toast ---------- */
+function speak(t) {
+  if (!("speechSynthesis" in window)) { toast("جهازك ما يدعم النطق"); return; }
+  const u = new SpeechSynthesisUtterance(t);
+  u.lang = "en-US"; u.rate = S.rate;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+let tt;
+function toast(m) {
+  const t = $("#toast"); t.textContent = m; t.classList.add("show");
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 2300);
+}
+
+/* ---------- text utils ---------- */
+const wre = w => new RegExp("\\b" + w + "[a-z]*", "i");
+const hl = (e, w) => esc(e).replace(wre(w), m => '<b class="hl">' + m + "</b>");
+const blank = (e, w) => esc(e).replace(wre(w), "____");
+const tok = m => new Set(m.replace(/[()\/،,]/g, " ").split(/\s+/).filter(t => t.length > 1));
+function clash(a, b) { const A = tok(a.m); for (const t of tok(b.m)) if (A.has(t)) return true; return false; }
+
+/* ---------- views ---------- */
+function cardHTML(x, i) {
+  return `<article class="flash" data-id="${x.id}" style="--i:${i}">
+    <button class="flip" data-a="flip" aria-pressed="false" aria-label="اقلب بطاقة ${esc(x.w)}">
+      <span class="face front"><span class="band">اليوم ${x.d}</span><span class="body"><span class="en" dir="ltr"><span class="mk">${esc(x.w)}</span></span></span></span>
+      <span class="face back"><span class="band" dir="ltr">${esc(x.w)}</span><span class="body"><span class="ar">${esc(x.m)}</span><span class="ex" dir="ltr">${hl(x.e, x.w)}</span></span></span>
+    </button>
+    <div class="tools">
+      <button class="tool" data-a="speak" aria-label="استمع">${I.speaker}</button>
+      <button class="tool ${S.hard[x.id] ? "on" : ""}" data-a="star" aria-pressed="${!!S.hard[x.id]}" aria-label="علّمها كلمة صعبة">${I.star}</button>
+    </div>
+  </article>`;
+}
+
+function vToday() {
+  const L = lessonDay(), v = ui.view, done = S.done.includes(v), all = S.done.length >= 100;
+  return `
+  <section class="daynav">
+    <button class="round" data-a="prev" aria-label="اليوم السابق" ${v <= 1 ? "disabled" : ""}>${I.prev}</button>
+    <div class="daytitle"><div class="num">${v}</div><div class="of">من 100${done ? '<span class="badge">منتهي</span>' : ""}</div></div>
+    <button class="round" data-a="next" aria-label="اليوم التالي" ${v >= 100 ? "disabled" : ""}>${I.next}</button>
+  </section>
+  <p class="sub">${v !== L ? `<button class="link" data-a="goLesson">ارجع إلى درس اليوم (يوم ${L})</button>` : all ? "أنهيت الأيام كلها" : '<span class="muted">درس اليوم</span>'}</p>
+  <div class="stack">${BY_DAY[v].map(cardHTML).join("")}</div>
+  <div class="actions">
+    <button class="btn ghost" data-a="flipAll">${I.flip}اقلب الكل</button>
+    <button class="btn primary" data-a="done">${done ? "تراجع عن إنهاء اليوم" : "أنهيت اليوم " + v}</button>
+  </div>
+  ${done ? `<p style="text-align:center;display:flex;gap:22px;justify-content:center;flex-wrap:wrap">
+    <button class="link" data-a="quiz" data-scope="day">اختبر كلمات هذا اليوم</button>
+    ${v !== L ? '<button class="link" data-a="goLesson">انتقل للدرس التالي</button>' : ""}</p>` : ""}`;
+}
+
+function vPractice() {
+  if (ui.quiz) return vQuiz();
+  const due = dueWords().length, learned = learnedWords().length, hard = hardWords().length;
+  const msg = due ? "" : learned ? "راجعت كل شيء لهذا اليوم. ارجع بكرة أو اختبر نفسك من القائمة." : "أنهِ يومًا من الدروس وتظهر كلماته هنا للمراجعة.";
+  const seg = [["mixed", "مختلط"], ["mc", "اختيار"], ["rev", "عكسي"], ["listen", "استماع"], ["type", "كتابة"]];
+  return `
+  <div class="due"><span class="n">${due}</span><p>كلمة تنتظر المراجعة اليوم</p></div>
+  <p class="hint">${msg}</p>
+  <button class="btn primary" data-a="quiz" data-scope="due" ${due ? "" : "disabled"}>ابدأ المراجعة</button>
+  <div class="rows">
+    <button class="rowbtn" data-a="quiz" data-scope="day"><span>كلمات اليوم ${ui.view}</span><span class="c">3</span></button>
+    <button class="rowbtn" data-a="quiz" data-scope="learned" ${learned ? "" : "disabled"}><span>كل ما تعلمته</span><span class="c">${learned}</span></button>
+    <button class="rowbtn" data-a="quiz" data-scope="hard" ${hard ? "" : "disabled"}><span>الكلمات الصعبة</span><span class="c">${hard}</span></button>
+  </div>
+  <p class="sec">نوع الأسئلة</p>
+  <div class="seg">${seg.map(([v, l]) => `<button class="${ui.mode === v ? "on" : ""}" data-a="mode" data-v="${v}">${l}</button>`).join("")}</div>`;
+}
+
+function makeQ(id) {
+  const w = WORDS[id];
+  let types = ui.mode === "mixed" ? ["mc", "rev", "mc", "rev", "listen", "type"] : [ui.mode];
+  if (!("speechSynthesis" in window)) types = types.filter(t => t !== "listen");
+  if (!types.length) types = ["mc"];
+  const type = pick(types);
+  const c = { id, type, answered: false, ok: null, chosen: null, typed: "" };
+  if (type !== "type") {
+    c.opts = shuffle([w, ...shuffle(WORDS).filter(x => x.id !== id && !clash(x, w)).slice(0, 3)]).map(x => x.id);
+  }
+  return c;
+}
+
+function vQuiz() {
+  const q = ui.quiz;
+  if (q.finished) return vResult();
+  const c = q.cur, w = WORDS[c.id];
+  const n = Object.keys(q.first).length;
+  let body = "";
+  if (c.type === "mc") {
+    body = `<div class="sheet"><span class="en" dir="ltr">${esc(w.w)}</span><button class="tool" data-a="speak" data-say="${esc(w.w)}" aria-label="استمع">${I.speaker}</button></div>`;
+  } else if (c.type === "rev") {
+    body = `<div class="sheet"><span class="ar">${esc(w.m)}</span></div>`;
+  } else if (c.type === "listen") {
+    body = `<div class="sheet"><button class="listen-btn" data-a="speak" data-say="${esc(w.w)}" aria-label="استمع مرة ثانية">${I.speaker}</button><p class="muted">ما معنى الكلمة التي سمعتها؟</p></div>`;
+  } else {
+    const first = w.w[0].toUpperCase() + (w.w.length > 1 ? " " + Array(w.w.length - 1).fill("_").join(" ") : "");
+    body = `<div class="sheet"><span class="ar">${esc(w.m)}</span><span class="ex" dir="ltr" style="display:block">${blank(w.e, w.w)}</span>
+      <div class="blankhint">${first}</div>
+      <input id="ans" class="ans ${c.answered ? (c.ok ? "ok" : "no") : ""}" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="اكتب الكلمة بالإنجليزي" value="${esc(c.typed)}" ${c.answered ? "disabled" : ""}></div>`;
+  }
+  let choices = "";
+  if (c.type !== "type") {
+    choices = c.opts.map((oid, i) => {
+      const o = WORDS[oid];
+      const cls = c.answered ? (oid === c.id ? "ok" : oid === c.chosen ? "no" : "") : "";
+      return `<button class="opt ${c.type === "rev" ? "enopt" : ""} ${cls}" data-a="opt" data-i="${oid}" ${c.answered ? "disabled" : ""}><span class="k">${i + 1}</span>${esc(c.type === "rev" ? o.w : o.m)}</button>`;
+    }).join("");
+  } else if (!c.answered) {
+    choices = `<div class="row end"><button class="btn ghost" data-a="skip">لا أعرف</button><button class="btn primary" data-a="submit">تحقق</button></div>`;
+  }
+  let fb = "";
+  if (c.answered && c.ok) fb = `<div class="fb good">صحيح</div>`;
+  if (c.answered && !c.ok) fb = `<div class="fb"><div class="line"><span class="en" dir="ltr">${esc(w.w)}</span><span>${esc(w.m)}</span></div><div class="ex" dir="ltr">${hl(w.e, w.w)}</div><button class="btn primary" data-a="nextQ" id="nextBtn">التالي</button></div>`;
+  return `
+  <div class="qhead">
+    <button class="link" data-a="quit">إنهاء</button>
+    <div class="qprog"><span style="width:${n / q.total * 100}%"></span></div>
+    <span class="qcount">${Math.min(n + 1, q.total)}/${q.total}</span>
+  </div>${body}${choices}${fb}`;
+}
+
+function vResult() {
+  const q = ui.quiz, pct = Math.round(q.correct / q.total * 100);
+  return `<section class="result">
+    <div class="score"><span class="n">${q.correct}</span><span class="of">من ${q.total}</span></div>
+    <p>أجبت صح على ${pct}% من الأسئلة من أول محاولة.</p>
+    ${q.missed.length ? `<p class="sec" style="text-align:start">كلمات تحتاج مراجعة</p><ul class="missed">${q.missed.map(id => `<li><span class="en" dir="ltr">${esc(WORDS[id].w)}</span><span>${esc(WORDS[id].m)}</span></li>`).join("")}</ul>` : '<p class="muted">ما أخطأت في أي كلمة.</p>'}
+    <div class="actions">
+      <button class="btn ghost" data-a="quit">رجوع</button>
+      <button class="btn primary" data-a="again">${q.missed.length ? "أعد الكلمات التي أخطأت فيها" : "اختبار جديد"}</button>
+    </div></section>`;
+}
+
+function wordsListHTML() {
+  const q = ui.q.trim().toLowerCase();
+  let list = WORDS;
+  if (ui.filter === "hard") list = list.filter(x => S.hard[x.id]);
+  if (ui.filter === "learned") list = list.filter(x => S.done.includes(x.d) || S.srs[x.id]);
+  if (q) list = list.filter(x => x.w.toLowerCase().includes(q) || x.m.includes(q));
+  if (!list.length) return `<p class="empty">${ui.filter === "hard" && !q ? "علّم الكلمة بالنجمة وتظهر هنا." : "ما لقيت كلمة تطابق بحثك."}</p>`;
+  return list.map(x => `<div class="wrow" data-id="${x.id}">
+    <div class="wmain"><span class="w">${esc(x.w)}</span><span class="m">${esc(x.m)}</span><span class="e">${esc(x.e)}</span></div>
+    <div class="wtools"><div class="tl">
+      <button class="tool" data-a="speak" aria-label="استمع">${I.speaker}</button>
+      <button class="tool ${S.hard[x.id] ? "on" : ""}" data-a="star" aria-pressed="${!!S.hard[x.id]}" aria-label="علّمها كلمة صعبة">${I.star}</button></div>
+      <button class="daychip" data-a="jump" data-day="${x.d}">يوم ${x.d}</button></div></div>`).join("");
+}
+function vWords() {
+  const f = [["all", "الكل"], ["hard", "الصعبة"], ["learned", "المتعلّمة"]];
+  return `<div class="searchbar"><input id="q" type="search" placeholder="ابحث بالإنجليزي أو بالعربي" value="${esc(ui.q)}" autocomplete="off"></div>
+  <div class="seg">${f.map(([v, l]) => `<button class="${ui.filter === v ? "on" : ""}" data-a="filter" data-v="${v}">${l}</button>`).join("")}</div>
+  <div id="list" style="margin-top:8px">${wordsListHTML()}</div>`;
+}
+
+function vProgress() {
+  const L = lessonDay(), mastered = WORDS.filter(w => S.srs[w.id] && S.srs[w.id].box >= 3).length;
+  const acc = S.stats.a ? Math.round(S.stats.c / S.stats.a * 100) + "%" : "—";
+  let cells = "";
+  for (let d = 1; d <= 100; d++) cells += `<button class="cell ${S.done.includes(d) ? "done" : ""} ${d === L && S.done.length < 100 ? "now" : ""}" data-a="jump" data-day="${d}" aria-label="اليوم ${d}">${d}</button>`;
+  return `
+  <div class="stats">
+    <div class="stat"><div class="n">${S.done.length}</div><div class="l">يوم منتهي من 100</div></div>
+    <div class="stat"><div class="n">${learnedWords().length}</div><div class="l">كلمة تعلمتها</div></div>
+    <div class="stat"><div class="n">${mastered}</div><div class="l">كلمة متقنة</div></div>
+    <div class="stat"><div class="n">${acc}</div><div class="l">دقة إجاباتك</div></div>
+  </div>
+  <p class="sec">خريطة الأيام</p>
+  <div class="map">${cells}</div>
+  <div class="legend"><span><i class="d"></i>منتهي</span><span><i class="n"></i>درس اليوم</span><span><i></i>قادم</span></div>`;
+}
+
+function applyTheme() {
+  if (S.theme === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", S.theme);
+}
+
+function render(scroll) {
+  applyTheme();
+  const st = streak(), chip = $("#streak");
+  chip.hidden = !st; chip.textContent = st ? "سلسلتك " + arDays(st) : "";
+  document.querySelectorAll("#tabs button").forEach(b => b.setAttribute("aria-current", b.dataset.tab === ui.tab ? "page" : "false"));
+  $("#app").innerHTML = ({ today: vToday, practice: vPractice, words: vWords, progress: vProgress })[ui.tab]();
+  if (scroll) window.scrollTo({ top: 0 });
+}
+
+/* ---------- quiz engine ---------- */
+function startIds(ids, scope) {
+  ui.quiz = { scope, queue: ids.slice(), total: ids.length, first: {}, correct: 0, missed: [], retried: {}, cur: null, finished: false };
+  ui.tab = "practice";
+  nextQ(true);
+}
+function startQuiz(scope) {
+  const list = scope === "due" ? dueWords() : scope === "day" ? BY_DAY[ui.view] : scope === "learned" ? learnedWords() : hardWords();
+  if (!list.length) { toast("ما في كلمات في هذا القسم بعد"); return; }
+  startIds(shuffle(list).slice(0, 10).map(x => x.id), scope);
+}
+function nextQ(scroll) {
+  clearTimeout(ui.timer);
+  const q = ui.quiz; if (!q) return;
+  if (!q.queue.length) { q.finished = true; render(scroll); return; }
+  q.cur = makeQ(q.queue.shift());
+  render(scroll);
+  if (q.cur.type === "listen") setTimeout(() => speak(WORDS[q.cur.id].w), 200);
+  if (q.cur.type === "type") { const a = $("#ans"); if (a) a.focus(); }
+}
+function answer(ok, chosen) {
+  const q = ui.quiz, c = q.cur;
+  if (!c || c.answered) return;
+  c.answered = true; c.ok = ok; c.chosen = chosen;
+  if (!(c.id in q.first)) { q.first[c.id] = ok; if (ok) q.correct++; else q.missed.push(c.id); }
+  grade(c.id, ok);
+  if (!ok && !q.retried[c.id]) { q.retried[c.id] = 1; q.queue.push(c.id); }
+  render();
+  if (c.type === "listen" || c.type === "mc") speak(WORDS[c.id].w);
+  if (ok) ui.timer = setTimeout(() => nextQ(), 1000);
+  else { const b = $("#nextBtn"); if (b) b.focus(); }
+}
+function submitType() {
+  const c = ui.quiz && ui.quiz.cur; if (!c || c.answered) return;
+  const el = $("#ans"), v = (el && el.value || "").trim();
+  if (!v) { if (el) el.focus(); return; }
+  c.typed = v;
+  answer(v.toLowerCase() === WORDS[c.id].w.toLowerCase(), null);
+}
+
+/* ---------- settings ---------- */
+function settingsHTML() {
+  const seg = (items, cur, a) => items.map(([v, l]) => `<button class="${String(cur) === String(v) ? "on" : ""}" data-a="${a}" data-v="${v}">${l}</button>`).join("");
+  return `<h2>الإعدادات</h2>
+  <div class="set"><div class="lbl">المظهر</div><div class="seg">${seg([["auto", "تلقائي"], ["light", "فاتح"], ["dark", "داكن"]], S.theme, "theme")}</div></div>
+  <div class="set"><div class="lbl">سرعة النطق</div><div class="seg">${seg([[0.7, "بطيء"], [0.9, "عادي"], [1.1, "سريع"]], S.rate, "rate")}</div></div>
+  <div class="set"><div class="lbl">نسخة احتياطية</div><p class="note">تقدمك محفوظ في هذا المتصفح فقط. انسخه واحتفظ به لتسترجعه في متصفح أو جهاز ثاني.</p>
+    <div class="row"><button class="btn ghost" data-a="copy">انسخ التقدم</button><button class="btn ghost" data-a="restore">استرجع التقدم</button></div></div>
+  <div class="set"><button class="btn danger" data-a="reset">امسح كل التقدم</button></div>
+  <div class="row end"><button class="btn primary" data-a="closeSettings">تم</button></div>`;
+}
+const dlg = () => $("#settings");
+
+/* ---------- actions ---------- */
+const A = {
+  tab(el) { ui.tab = el.dataset.tab; render(true); },
+  prev() { if (ui.view > 1) { ui.view--; render(true); } },
+  next() { if (ui.view < 100) { ui.view++; render(true); } },
+  goLesson() { ui.view = lessonDay(); ui.tab = "today"; render(true); },
+  jump(el) { ui.view = +el.dataset.day; ui.tab = "today"; render(true); },
+  flip(el) {
+    const art = el.closest(".flash"); art.classList.toggle("is-flipped");
+    el.setAttribute("aria-pressed", art.classList.contains("is-flipped"));
+  },
+  flipAll() {
+    const arts = [...document.querySelectorAll(".flash")];
+    const to = arts.some(a => !a.classList.contains("is-flipped"));
+    arts.forEach(a => { a.classList.toggle("is-flipped", to); a.querySelector(".flip").setAttribute("aria-pressed", to); });
+  },
+  speak(el) {
+    if (el.dataset.say) return speak(el.dataset.say);
+    const art = el.closest("[data-id]"); if (!art) return;
+    const w = WORDS[+art.dataset.id];
+    speak(art.classList.contains("is-flipped") ? w.e : w.w);
+  },
+  star(el) {
+    const id = +el.closest("[data-id]").dataset.id;
+    if (S.hard[id]) delete S.hard[id]; else S.hard[id] = 1;
+    save();
+    if (ui.tab === "words" && ui.filter === "hard") { $("#list").innerHTML = wordsListHTML(); }
+    else { el.classList.toggle("on", !!S.hard[id]); el.setAttribute("aria-pressed", !!S.hard[id]); }
+    toast(S.hard[id] ? "أضفتها إلى الكلمات الصعبة" : "أزلتها من الكلمات الصعبة");
+  },
+  done() {
+    const v = ui.view, i = S.done.indexOf(v);
+    if (i >= 0) { S.done.splice(i, 1); toast("رجع اليوم " + v + " إلى غير منتهي"); }
+    else {
+      S.done.push(v);
+      BY_DAY[v].forEach(w => { if (!S.srs[w.id]) S.srs[w.id] = { box: 0, due: today() }; });
+      touch();
+      toast(S.done.length >= 100 ? "أنهيت الأيام المئة. مبروك" : "انتهى اليوم " + v + "، باقي " + (100 - S.done.length));
+    }
+    save(); render();
+  },
+  quiz(el) { startQuiz(el.dataset.scope); },
+  mode(el) { ui.mode = el.dataset.v; render(); },
+  opt(el) { const c = ui.quiz.cur, oid = +el.dataset.i; answer(oid === c.id, oid); },
+  submit() { submitType(); },
+  skip() { const c = ui.quiz.cur; if (c) { c.typed = ""; answer(false, null); } },
+  nextQ() { nextQ(); },
+  quit() { clearTimeout(ui.timer); ui.quiz = null; render(true); },
+  again() {
+    const q = ui.quiz;
+    if (q.missed.length) startIds(q.missed, q.scope); else startQuiz(q.scope);
+  },
+  filter(el) { ui.filter = el.dataset.v; render(); },
+  openSettings() { dlg().innerHTML = settingsHTML(); dlg().showModal(); },
+  closeSettings() { dlg().close(); },
+  theme(el) { S.theme = el.dataset.v; save(); applyTheme(); dlg().innerHTML = settingsHTML(); },
+  rate(el) { S.rate = +el.dataset.v; save(); dlg().innerHTML = settingsHTML(); speak("Hello, welcome back"); },
+  copy() {
+    const t = JSON.stringify(S);
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => toast("نسخت تقدمك")).catch(() => prompt("انسخ هذا النص:", t));
+    else prompt("انسخ هذا النص:", t);
+  },
+  restore() {
+    const t = prompt("الصق نسخة التقدم هنا");
+    if (!t) return;
+    try {
+      const o = JSON.parse(t);
+      if (!o || !Array.isArray(o.done)) throw 0;
+      S = Object.assign(fresh(), o); save(); ui.view = lessonDay(); ui.quiz = null; dlg().close(); render(true); toast("استرجعت تقدمك");
+    } catch (e) { toast("النص غير صالح. انسخ النسخة الاحتياطية كاملة."); }
+  },
+  reset() {
+    if (!confirm("تمسح كل تقدمك وإحصائياتك؟ ما تقدر ترجعها.")) return;
+    S = fresh(); save(); ui.view = 1; ui.quiz = null; dlg().close(); render(true); toast("مسحت التقدم");
+  }
+};
+
+document.addEventListener("click", e => {
+  if (e.target === dlg()) { dlg().close(); return; }
+  const el = e.target.closest("[data-a]");
+  if (el && A[el.dataset.a]) A[el.dataset.a](el, e);
+});
+document.addEventListener("input", e => {
+  if (e.target.id === "q") { ui.q = e.target.value; $("#list").innerHTML = wordsListHTML(); }
+});
+document.addEventListener("keydown", e => {
+  if (e.target.matches("input,textarea")) {
+    if (e.key === "Enter" && e.target.id === "ans") submitType();
+    return;
+  }
+  if (document.querySelector("dialog[open]")) return;
+  if (ui.tab === "today") {
+    if (e.key === "ArrowLeft") A.next();
+    else if (e.key === "ArrowRight") A.prev();
+    else if (["1", "2", "3"].includes(e.key)) {
+      const b = document.querySelectorAll(".flash .flip")[+e.key - 1]; if (b) A.flip(b);
+    }
+  } else if (ui.tab === "practice" && ui.quiz && !ui.quiz.finished) {
+    const c = ui.quiz.cur;
+    if (c && !c.answered && c.opts && /^[1-4]$/.test(e.key)) {
+      const oid = c.opts[+e.key - 1]; if (oid !== undefined) answer(oid === c.id, oid);
+    } else if (c && c.answered && !c.ok && e.key === "Enter") nextQ();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
